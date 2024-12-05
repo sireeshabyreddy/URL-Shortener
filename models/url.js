@@ -1,4 +1,5 @@
 const mongoose=require("mongoose");
+//const User=require("./user");
 const UrlSchema=new mongoose.Schema({
     shortId:{
         type:String,
@@ -13,6 +14,10 @@ const UrlSchema=new mongoose.Schema({
 
     },
     visitHistory:[{timestamp:{type:Number}}],
+    createdBy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'users',
+    },
 },
 {timestam:true}
 );

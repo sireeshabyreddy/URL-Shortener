@@ -4,23 +4,35 @@ const URL=require("../models/url");
 
 
 
-async function handleGenerateNewShortURL(req,res){
-        const body=req.body;
-        if (!body.url) {
-            return res.status(400).json({ error: 'URL is required' });
+async function handleGenerateNewShortURL(req, res) {
+    const body = req.body;
+
+    if (!body.url) {
+        return res.status(400).json({ error: 'URL is required' });
+    }
+
+    let shortID;
+    let urlExists = true;
+
+    // Ensure shortID is unique
+    while (urlExists) {
+        shortID = shortid.generate();
+        const existingUrl = await URL.findOne({ shortId: shortID });
+        if (!existingUrl) {
+            urlExists = false; // If not found, break the loop
         }
-        const shortID=shortid.generate();;
-        await URL.create({
-            shortId:shortID,
-            redirectURL:body.url,
-            visitHistory:[],
-        });
-        return res.render("home",{
-            id:shortID,
+    }
 
-        });
-        
+    await URL.create({
+        shortId: shortID,
+        redirectURL: body.url,
+        visitHistory: [],
+        createdBy: req.user._id,
+    });
 
+    return res.render("home", {
+        id: shortID,
+    });
 }
 
 
