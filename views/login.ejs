@@ -79,6 +79,9 @@
   
    <div class="login-container">
     <h1>Login</h1>
+    <% if (error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
        <form method="POST" action="/user/login">
            <label for="email">Email:</label>
            <input type="text" required name="email" id="email" placeholder="Enter your email">

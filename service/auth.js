@@ -7,6 +7,8 @@ function setUser(user) {
         _id:user._id,
         email:user.email,
         role:user.role,
+        name: user.name,
+        
     },
      secret, { expiresIn: '1h' });
 }
